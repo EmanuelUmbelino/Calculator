@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        Calculator calculator = new Calculator();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        public int tamanho;
+        public string pegar;
+        public bool simbol = false;
+        public bool somou = false;
+        public bool algo = false;
+        private void Add(object sender, EventArgs e)
+        {
+            Button clicked = sender as Button;
+            algo = true;
+            if (simbol || somou) { Result.Text = clicked.Text; simbol = false; somou = false; }
+            else if (Result.Text != "0") Result.Text += clicked.Text;
+            else if (clicked.Text != ",") Result.Text = clicked.Text;
+            else Result.Text = "0,";
+        }
+        private void Reset(object sender, EventArgs e)
+        {
+            Result.Text = "0";
+            calculator.simbolinho = null;
+            calculator.valor = 0;
+            calculator.valor2 = 0;
+            calculator.total = 0;
+            simbol = false;
+            algo = false;
+        }
+
+        private void Total(object sender, EventArgs e)
+        {
+            calculator.sl = Convert.ToDouble(Result.Text);
+            calculator.calcular();
+            Result.Text = calculator.total.ToString();
+            calculator.sl = Convert.ToDouble(Result.Text);
+            calculator.valor = calculator.sl;
+            calculator.simbolinho = null;
+            somou = true;
+        }
+
+        private void Add_simbolos(object sender, EventArgs e)
+        {
+            Button clicked = sender as Button;
+            if (algo) calculator.sl = Convert.ToDouble(Result.Text);
+            // caso aperte um botao de sinal ja tendo efetuado uma conta
+            if (calculator.simbolinho != null)
+            {
+                calculator.calcular();
+                Result.Text = calculator.total.ToString();
+                calculator.sl = Convert.ToDouble(Result.Text);
+                calculator.valor = calculator.sl;
+                calculator.simbolinho = clicked.Text;
+                somou = true;
+            }
+            if (calculator.simbolinho == null && algo) calculator.simbolinho = clicked.Text;
+            if (calculator.valor != 0)
+            {
+                calculator.valor2 = calculator.sl;
+            }
+            else
+            {
+                calculator.valor = calculator.sl;
+            }
+            simbol = true;
+        }
+    }
+}
