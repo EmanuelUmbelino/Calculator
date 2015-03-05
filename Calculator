@@ -13,9 +13,12 @@ namespace WindowsFormsApplication1
         public double valor = 0;
         public double valor2 = 0;
         public double total = 0;
+        // funcao para calcular
         public void calcular()
         {
+            // pegar o valor atual
             valor2 = sl;
+            // executar as contas no "total"
             switch (simbolinho)
             {
                 case "*":
