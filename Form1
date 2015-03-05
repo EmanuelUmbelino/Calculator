@@ -17,11 +17,12 @@ namespace WindowsFormsApplication1
         {
             InitializeComponent();
         }
-        public int tamanho;
+        public int ola;
         public string pegar;
         public bool simbol = false;
         public bool somou = false;
         public bool algo = false;
+        public bool batata = false;
         private void Add(object sender, EventArgs e)
         {
             Button clicked = sender as Button;
@@ -61,6 +62,7 @@ namespace WindowsFormsApplication1
         {
             Button clicked = sender as Button;
             if (algo) calculator.sl = Convert.ToDouble(Result.Text);
+            if (batata && algo) { calculator.valor = calculator.sl; batata = false; }
             // caso aperte um botao de sinal ja tendo efetuado uma conta
             if (calculator.simbolinho != null)
             {
@@ -72,15 +74,24 @@ namespace WindowsFormsApplication1
                 somou = true;
             }
             if (calculator.simbolinho == null && algo) calculator.simbolinho = clicked.Text;
-            if (calculator.valor != 0)
+            if (calculator.valor != 0) calculator.valor2 = calculator.sl;
+            else calculator.valor = calculator.sl;
+            if (calculator.simbolinho.Equals("√") || calculator.simbolinho.Equals("Sen") || calculator.simbolinho.Equals("Cos") ||
+                calculator.simbolinho.Equals("Tg")) 
             {
-                calculator.valor2 = calculator.sl;
-            }
-            else
-            {
+                calculator.calcular();
+                Result.Text = calculator.total.ToString();
+                calculator.sl = Convert.ToDouble(Result.Text);
                 calculator.valor = calculator.sl;
+                calculator.simbolinho = null;
+                somou = true;
             }
             simbol = true;
+        }
+        private void Negativar(object sender, EventArgs e)
+        {
+            ola = Convert.ToInt32(Result.Text) * -1;
+            Result.Text = ola.ToString();
         }
     }
 }
