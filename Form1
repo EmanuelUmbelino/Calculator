@@ -26,10 +26,14 @@ namespace WindowsFormsApplication1
         {
             Button clicked = sender as Button;
             algo = true;
-            if (simbol || somou) { Result.Text = clicked.Text; simbol = false; somou = false; }
-            else if (Result.Text != "0") Result.Text += clicked.Text;
+            if (clicked.Text.Equals(","))
+            {
+                if (Result.Text.IndexOf(",") != -1) Result.Text = Result.Text;
+                else Result.Text += clicked.Text;
+            }
+            if (simbol && clicked.Text != "," || somou && clicked.Text != ",") { Result.Text = clicked.Text; simbol = false; somou = false; }
+            else if (Result.Text != "0" && clicked.Text != ",") Result.Text += clicked.Text;
             else if (clicked.Text != ",") Result.Text = clicked.Text;
-            else Result.Text = "0,";
         }
         private void Reset(object sender, EventArgs e)
         {
